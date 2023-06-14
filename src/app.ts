@@ -14,6 +14,11 @@ function createApp() {
 
     app.use(limiter);
     app.use(helmet());
+    let origins = process.env.ALLOWED_ORIGIN
+    if (!origins) {
+        // generate a cors
+        origins = "http://localhost:3000"
+    }
     app.use(
         cors({
             origin: process.env.ALLOWED_ORIGIN,
