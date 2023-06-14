@@ -28,3 +28,6 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    env:
+      ALLOWED_ORIGIN: ${{ secrets.ALLOWED_ORIGIN }}
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
