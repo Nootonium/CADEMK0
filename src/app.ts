@@ -14,13 +14,13 @@ function createApp() {
 
     app.use(limiter);
     app.use(helmet());
-    
+    /*
     app.use(
         cors({
             origin: process.env.ALLOWED_ORIGIN
         })
     );
-
+    */
     app.use(express.json());
     app.use(contactRoutes);
 
