@@ -1,8 +1,9 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import contactRoutes from "./routes/contactRoutes";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
+import { logger } from "./logger";
 
 function createApp() {
     const app = express();
@@ -21,6 +22,11 @@ function createApp() {
 
     app.use(express.json());
     app.use(contactRoutes);
+
+    app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+        logger.error(err.stack);
+        res.status(500).send("Something broke!");
+    });
     return app;
 }
 export { createApp };

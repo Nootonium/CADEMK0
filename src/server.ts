@@ -1,4 +1,4 @@
-import { createApp } from './app';
+import { createApp } from "./app";
 import { Server } from "http";
 import dotenv from "dotenv";
 import { connectDB, disconnectDB } from "./database";

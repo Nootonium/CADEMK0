@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { check, validationResult } from "express-validator";
 import Message from "../models/message";
+import { logger } from "../logger";
 
 const router = express.Router();
 
@@ -27,7 +28,7 @@ router.post(
             await newMessage.save();
             res.json({ message: "Message was saved successfully." });
         } catch (err) {
-            console.error(err);
+            logger.error(err);
             res.status(500).send();
         }
     }

@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document } from "mongoose";
 
 export interface Message extends Document {
     name: string;
@@ -7,4 +7,4 @@ export interface Message extends Document {
     responded: boolean;
     viewed: boolean;
     category: string;
-  }
+}
