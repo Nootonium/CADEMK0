@@ -2,14 +2,14 @@
   "name": "cademk0",
   "version": "1.0.0",
   "description": "C.A.D.E. - Comprehensive Automated Digital E-butler",
-  "main": "index.js",
+  "main": "src/server.ts",
   "scripts": {
     "test": "NODE_ENV=test jest --coverage",
     "start": "ts-node src/server.ts",
     "dev": "ts-node-dev src/server.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Noot Noot",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
