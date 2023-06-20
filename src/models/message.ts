@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
-import { Message } from "../types";
+import { Message as IMessage } from "../types";
 
-const messageSchema = new Schema<Message>(
+const messageSchema = new Schema<IMessage>(
     {
         name: { type: String, required: true },
         email: { type: String, required: true },
@@ -15,6 +15,6 @@ const messageSchema = new Schema<Message>(
     }
 );
 
-const Message = model<Message>("Message", messageSchema, "messages");
+const Message = model<IMessage>("Message", messageSchema);
 
 export default Message;
