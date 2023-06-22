@@ -41,7 +41,38 @@ export async function getCompletion(params: OpenAiCompletionParams): Promise<str
         ...params,
     });
     if ("choices" in response.data && response.data.choices.length > 0) {
-        return response.data?.choices[0]?.text || '';
+        return response.data?.choices[0]?.text || "";
     }
-    return '';
+    return "";
+}
+
+export async function getGptResponse({
+    name,
+    message,
+}: {
+    name: string;
+    message: string;
+}) {
+    const gptPrompt = buildGptPrompt({ name, message });
+    const params: OpenAiCompletionParams = {
+        model: "text-davinci-003",
+        prompt: gptPrompt,
+        max_tokens: 256,
+        frequency_penalty: 0.3,
+    };
+    return await getCompletion(params);
+}
+
+export function validateResponse(response: string): boolean {
+    return response.trim() !== "";
+}
+
+export function parseGptResponse(response: string): {inquiryType: string, response: string} {
+    try {
+        const parsedResponse = JSON.parse(response);
+        return parsedResponse;
+    } catch (error) {
+        const err = error as Error;
+        throw new Error(`Error parsing GPT response: ${err.message}`);
+    }
 }
