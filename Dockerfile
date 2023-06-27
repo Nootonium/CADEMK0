@@ -9,10 +9,6 @@ LABEL fly_launch_runtime="Node.js"
 # Node.js app lives here
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV=production
-
-
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
@@ -20,22 +16,29 @@ FROM base as build
 RUN apt-get update -qq && \
     apt-get install -y python-is-python3 pkg-config build-essential 
 
-# Install node modules
-COPY --link package-lock.json package.json ./
-RUN npm ci --include=dev
+# Install all dependencies
+COPY --chown=node:node package-lock.json package.json ./
+RUN npm ci 
 
 # Copy application code
-COPY --link . .
+COPY --chown=node:node . .
+
+# Transpile TypeScript to JavaScript
+RUN npm run build
+
+ENV NODE_ENV=production
 
 # Remove development dependencies
-RUN npm prune --omit=dev
+RUN npm prune --production
 
 
 # Final stage for app image
 FROM base
 
-# Copy built application
-COPY --from=build /app /app
+# Copy node modules and built application from previous stage
+COPY --from=build /app/node_modules /app/node_modules
+COPY --from=build /app/dist /app/dist
+COPY --from=build /app/package.json /app/package.json
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
