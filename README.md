@@ -50,6 +50,9 @@ These instructions will get you a copy of the project up and running on your loc
     ```env
     MONGODB_URI=<Your MongoDB Connection String>
     ALLOWED_ORIGIN=<URL of the client-side application>
+    OPENAI_API_KEY=<Your open api key>
+    RESEND_API_KEY=<your Resend api key>
+    FROM_EMAIL=<the email to send from(add domain first)>
     ```
 4. Start the server
     ```bash
