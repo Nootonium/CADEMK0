@@ -6,21 +6,6 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-interface CreateCompletionResponse {
-    id: string;
-    object: string;
-    created: number;
-    model: string;
-    choices: Choice[];
-}
-
-interface Choice {
-    text: string;
-    index: number;
-    logprobs: null | any;
-    finish_reason: string;
-}
-
 interface GptPrompt {
     name: string;
     message: string;
@@ -63,14 +48,21 @@ export async function getGptResponse({
     return await getCompletion(params);
 }
 
-export function validateResponse(response: string): boolean {
+export function validateGPTResponse(response: string): boolean {
     return response.trim() !== "";
 }
 
-export function parseGptResponse(response: string): {inquiryType: string, response: string} {
+export function parseGptResponse(response: string): {
+    inquiryType: string;
+    response: string;
+} {
     try {
         const parsedResponse = JSON.parse(response);
-        return parsedResponse;
+        if ("inquiryType" in parsedResponse && "response" in parsedResponse) {
+            return parsedResponse;
+        } else {
+            throw new Error("Missing inquiryType or response property");
+        }
     } catch (error) {
         const err = error as Error;
         throw new Error(`Error parsing GPT response: ${err.message}`);

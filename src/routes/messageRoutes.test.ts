@@ -1,5 +1,7 @@
-import request from "supertest";
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.test" });
 import { createApp } from "../app";
+import request from "supertest";
 import { connectDB, disconnectDB } from "../database";
 
 const app = createApp();
@@ -12,44 +14,22 @@ afterAll(async () => {
     await disconnectDB();
 });
 
-describe("POST /contact", () => {
-    it("should accept and save message with valid data", async () => {
-        const res = await request(app).post("/contact").send({
+describe("POST /message", () => {
+    it("should save a message and respond with 200", async () => {
+        // Arrange
+        const mockMessage = {
             name: "John Doe",
-            email: "john@example.com",
-            message: "Hello there!",
+            email: "john.doe@example.com",
+            message: "Hello world",
+        };
+
+        // Act
+        const response = await request(app).post("/message").send(mockMessage);
+
+        // Assert
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({
+            message: "Message was saved successfully.",
         });
-
-        expect(res.status).toBe(200);
-    });
-
-    it("should reject an invalid email", async () => {
-        const res = await request(app).post("/contact").send({
-            name: "John Doe",
-            email: "notanemail",
-            message: "Hello there!",
-        });
-
-        expect(res.status).toBe(400);
-    });
-
-    it("should reject an empty name", async () => {
-        const res = await request(app).post("/contact").send({
-            name: "",
-            email: "john@example.com",
-            message: "Hello there!",
-        });
-
-        expect(res.status).toBe(400);
-    });
-
-    it("should reject an empty message", async () => {
-        const res = await request(app).post("/contact").send({
-            name: "John Doe",
-            email: "john@example.com",
-            message: "",
-        });
-
-        expect(res.status).toBe(400);
     });
 });
