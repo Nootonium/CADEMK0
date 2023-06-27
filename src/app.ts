@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
-import contactRoutes from "./routes/contactRoutes";
+import messageRoutes from "./routes/messageRoutes";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import { logger } from "./logger";
@@ -14,15 +14,14 @@ function createApp() {
 
     app.use(limiter);
     app.use(helmet());
-    
     app.use(
         cors({
-            origin: process.env.ALLOWED_ORIGIN
+            origin: process.env.ALLOWED_ORIGIN,
         })
     );
-    
+
     app.use(express.json());
-    app.use(contactRoutes);
+    app.use(messageRoutes);
 
     app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         logger.error(err.stack);

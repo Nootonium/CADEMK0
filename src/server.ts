@@ -1,12 +1,13 @@
-import { createApp } from "./app";
-import { Server } from "http";
 import dotenv from "dotenv";
+dotenv.config();
+
+import { Server } from "http";
+import { createApp } from "./app";
 import { connectDB, disconnectDB } from "./database";
 
 let server: Server | null = null;
 
 export const startServer = async (port: number): Promise<Server> => {
-    dotenv.config();
     const app = createApp();
     await connectDB();
     server = app.listen(port, () => {

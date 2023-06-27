@@ -8,3 +8,22 @@ export interface Message extends Document {
     viewed: boolean;
     category: string;
 }
+
+export interface OpenAiCompletionParams {
+    model: string;
+    prompt: string;
+    suffix?: string;
+    max_tokens?: number;
+    temperature?: number;
+    top_p?: number;
+    n?: number;
+    stream?: boolean;
+    logprobs?: number;
+    echo?: boolean;
+    stop?: string;
+    presence_penalty?: number;
+    frequency_penalty?: number;
+    best_of?: number;
+    logit_bias?: { [key: string]: number };
+    user?: string;
+}
