@@ -2,36 +2,27 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env.test" });
 import request from "supertest";
 import express, { Request, Response, NextFunction } from "express";
-import router from "../routes/messageRoutes";
 import Message from "../models/message";
 import { validateMessage, saveMessage, respondWithGpt } from "./messageService";
-import { MongoMemoryServer } from "mongodb-memory-server";
-import mongoose from "mongoose";
 import * as emailService from "./emailService";
 import * as gptService from "./gptService";
+import { connectDB, disconnectDB } from "../database";
+import { createApp } from "../app";
 
 // Mock the Message model
 jest.mock("../models/message");
 jest.mock("./gptService");
 jest.mock("./emailService");
 
-// Create a fake database server
-let mongoServer: MongoMemoryServer;
+const app = createApp();
 
 beforeAll(async () => {
-    mongoServer = await MongoMemoryServer.create();
-    const uri = mongoServer.getUri();
-    await mongoose.connect(uri);
+    await connectDB();
 });
 
 afterAll(async () => {
-    await mongoose.disconnect();
-    await mongoServer.stop();
+    await disconnectDB();
 });
-
-const app = express();
-app.use(express.json());
-app.use("/", router);
 
 describe("POST /message - Message Validation", () => {
     it("should fail when name is undefined", async () => {
@@ -198,7 +189,10 @@ describe("POST /message - Save Message", () => {
 
             // Use jest.spyOn to get the mocked functions from gptService and emailService modules
             const getGptResponseSpy = jest.spyOn(gptService, "getGptResponse");
-            const validateGPTResponseSpy = jest.spyOn(gptService, "validateGPTResponse");
+            const validateGPTResponseSpy = jest.spyOn(
+                gptService,
+                "validateGPTResponse"
+            );
             const parseGptResponseSpy = jest.spyOn(gptService, "parseGptResponse");
             const buildEmailBodySpy = jest.spyOn(emailService, "buildEmailBody");
             const sendEmailSpy = jest.spyOn(emailService, "sendEmail");
