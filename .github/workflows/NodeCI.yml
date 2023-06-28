@@ -31,3 +31,5 @@ jobs:
     env:
       ALLOWED_ORIGIN: ${{ secrets.ALLOWED_ORIGIN }}
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      
