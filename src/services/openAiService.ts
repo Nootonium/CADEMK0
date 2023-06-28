@@ -49,11 +49,11 @@ export async function getValidatedResponse({ name, message }: GptPrompt) {
     return parseResponse(response);
 }
 
-function validateResponse(response: string): boolean {
+export function validateResponse(response: string): boolean {
     return response.trim() !== "";
 }
 
-function parseResponse(response: string): {
+export function parseResponse(response: string): {
     inquiryType: string;
     response: string;
 } {
