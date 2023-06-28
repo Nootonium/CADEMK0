@@ -2,9 +2,9 @@ import Message from "../models/message";
 import { logger } from "../logger";
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
-import { getGptResponse, parseGptResponse, validateGPTResponse } from "./gptService";
-import { buildEmailBody, sendEmail } from "./emailService";
 import { Message as IMessage } from "../types";
+import { getValidatedResponse } from "./openAiService";
+import { buildEmailBody, sendEmail } from "./emailService";
 
 export async function validateMessage(req: Request, res: Response, next: NextFunction) {
     const errors = validationResult(req);
@@ -35,24 +35,20 @@ export async function saveMessage(req: Request, res: Response, next: NextFunctio
 export async function respondWithGpt(req: Request, res: Response) {
     const { name, email, message } = req.body;
     const savedMessage: IMessage = res.locals.savedMessage;
-    const gptResponse = await getGptResponse({ name, message });
-    if (validateGPTResponse(gptResponse)) {
-        const parsedGptResponse = parseGptResponse(gptResponse);
-        const emailBody = buildEmailBody({
-            name,
-            response: parsedGptResponse.response,
-        });
-        const emailSent = await sendEmail({
-            to: email,
-            subject: parsedGptResponse.inquiryType,
-            body: emailBody,
-        });
-        if (emailSent) {
-            savedMessage.responded = true;
-            savedMessage.category = parsedGptResponse.inquiryType;
-            savedMessage.save();
-        }
-    } else {
-        logger.error("Invalid response from GPT-3");
+    const gptResponse = await getValidatedResponse({ name, message });
+
+    const emailBody = buildEmailBody({
+        name,
+        response: gptResponse.response,
+    });
+    const emailSent = await sendEmail({
+        to: email,
+        subject: gptResponse.inquiryType,
+        body: emailBody,
+    });
+    if (emailSent) {
+        savedMessage.responded = true;
+        savedMessage.category = gptResponse.inquiryType;
+        savedMessage.save();
     }
 }

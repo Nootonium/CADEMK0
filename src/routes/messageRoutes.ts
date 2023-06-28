@@ -1,9 +1,10 @@
 import { check } from "express-validator";
 import {
-    saveMessage,
     validateMessage,
+    saveMessage,
     respondWithGpt,
 } from "../services/messageService";
+
 import express from "express";
 
 const router = express.Router();
