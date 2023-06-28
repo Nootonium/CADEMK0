@@ -13,6 +13,10 @@ function createApp() {
         windowMs: 24 * 60 * 60 * 1000,
         max: 100,
     });
+    app.use((req, res, next) => {
+        console.log("Request Origin:", req.get("origin"));
+        next();
+    });
 
     app.use(limiter);
     app.use(helmet());
