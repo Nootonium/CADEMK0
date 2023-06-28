@@ -1,21 +1,21 @@
-import { validateGPTResponse, parseGptResponse } from "./gptService";
+import { parseResponse, validateResponse } from "./openAiService";
 
 describe("validateGPTResponse", () => {
     it("should return true for a non-empty string", () => {
         const response = "Some GPT response";
-        const result = validateGPTResponse(response);
+        const result = validateResponse(response);
         expect(result).toBe(true);
     });
 
     it("should return false for an empty string", () => {
         const response = "";
-        const result = validateGPTResponse(response);
+        const result = validateResponse(response);
         expect(result).toBe(false);
     });
 
     it("should return false for a string with only whitespace", () => {
         const response = "   ";
-        const result = validateGPTResponse(response);
+        const result = validateResponse(response);
         expect(result).toBe(false);
     });
 });
@@ -26,7 +26,7 @@ describe("parseGptResponse", () => {
         "inquiryType": "General",
         "response": "Thank you for your message."
     }`;
-        const result = parseGptResponse(response);
+        const result = parseResponse(response);
         expect(result).toEqual({
             inquiryType: "General",
             response: "Thank you for your message.",
@@ -38,7 +38,7 @@ describe("parseGptResponse", () => {
         "inquiryType": "General",
         "response": "Thank you for your message."
     `;
-        expect(() => parseGptResponse(response)).toThrow(
+        expect(() => parseResponse(response)).toThrow(
             "Error parsing GPT response: Unexpected end of JSON input"
         );
     });
@@ -47,7 +47,7 @@ describe("parseGptResponse", () => {
         const response = `{
         "inquiryType": "General"
     }`;
-        expect(() => parseGptResponse(response)).toThrow(
+        expect(() => parseResponse(response)).toThrow(
             "Error parsing GPT response: Missing inquiryType or response property"
         );
     });

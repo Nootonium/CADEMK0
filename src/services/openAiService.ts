@@ -1,8 +1,9 @@
 import { Configuration, OpenAIApi } from "openai";
 import { OpenAiCompletionParams } from "../types";
-
+import { getEnvVariables } from "../config";
+const CONFIG = getEnvVariables();
 const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: CONFIG.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
@@ -11,14 +12,14 @@ interface GptPrompt {
     message: string;
 }
 
-export function buildGptPrompt({ name, message }: GptPrompt): string {
+function buildPrompt({ name, message }: GptPrompt): string {
     return `Based on the following message received via my portfolio contact form, please classify the type of inquiry
-    (e.g., job offer, collaboration proposal, question, etc.) and then generate a professional and friendly response (Response) without specifying my availability.
-    Try to respond in the same language as the message. The message is: ${message} from ${name}. Please generate a response in the following format:
-    {
-        "inquiryType": "[type]",
-        "response": "[response text]"
-    }`;
+        (e.g., job offer, collaboration proposal, question, etc.) and then generate a professional and friendly response (Response) without specifying my availability.
+        Try to respond in the same language as the message. The message is: ${message} from ${name}. Please generate a response in the following format:
+        {
+            "inquiryType": "[type]",
+            "response": "[response text]"
+        }`;
 }
 
 export async function getCompletion(params: OpenAiCompletionParams): Promise<string> {
@@ -31,28 +32,28 @@ export async function getCompletion(params: OpenAiCompletionParams): Promise<str
     return "";
 }
 
-export async function getGptResponse({
-    name,
-    message,
-}: {
-    name: string;
-    message: string;
-}) {
-    const gptPrompt = buildGptPrompt({ name, message });
+export async function getValidatedResponse({ name, message }: GptPrompt) {
+    const gptPrompt = buildPrompt({ name, message });
     const params: OpenAiCompletionParams = {
         model: "text-davinci-003",
         prompt: gptPrompt,
         max_tokens: 256,
         frequency_penalty: 0.3,
     };
-    return await getCompletion(params);
+    const response = await getCompletion(params);
+
+    if (!validateResponse(response)) {
+        throw new Error("Invalid response received from OpenAI");
+    }
+
+    return parseResponse(response);
 }
 
-export function validateGPTResponse(response: string): boolean {
+export function validateResponse(response: string): boolean {
     return response.trim() !== "";
 }
 
-export function parseGptResponse(response: string): {
+export function parseResponse(response: string): {
     inquiryType: string;
     response: string;
 } {

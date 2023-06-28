@@ -4,13 +4,12 @@ import { logger } from "./logger";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
-const connectDB = async () => {
+const connectDB = async (MONGODB_URI: string) => {
     try {
-        const uri = process.env.MONGODB_URI;
-        if (!uri) {
+        if (!MONGODB_URI) {
             throw new Error("MONGODB_URI is not defined");
         }
-        await mongoose.connect(uri);
+        await mongoose.connect(MONGODB_URI);
         logger.info("MongoDB connected...");
     } catch (err) {
         logger.error((err as Error).message);

@@ -1,32 +1,31 @@
-import express, { NextFunction, Request, Response } from "express";
+// app.ts
+import express from "express";
 import cors from "cors";
-import messageRoutes from "./routes/messageRoutes";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
-import { logger } from "./logger";
+import messagesRoutes from "./routes/messageRoutes";
+import { getEnvVariables } from "./config";
 
 function createApp() {
+    const { ALLOWED_ORIGIN } = getEnvVariables();
     const app = express();
     const limiter = rateLimit({
         windowMs: 24 * 60 * 60 * 1000,
-        max: 10,
+        max: 100,
     });
 
     app.use(limiter);
     app.use(helmet());
     app.use(
         cors({
-            origin: process.env.ALLOWED_ORIGIN,
+            origin: ALLOWED_ORIGIN,
         })
     );
 
     app.use(express.json());
-    app.use(messageRoutes);
+    app.use(messagesRoutes);
 
-    app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-        logger.error(err.stack);
-        res.status(500).send("Something broke!");
-    });
     return app;
 }
+
 export { createApp };
