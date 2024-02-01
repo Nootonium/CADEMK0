@@ -4,6 +4,7 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import messagesRoutes from "./routes/messageRoutes";
+import githubWebhookRoutes from "./routes/githubWebhookRoutes"; 
 import { getEnvVariables } from "./config";
 
 function createApp() {
@@ -28,6 +29,7 @@ function createApp() {
 
     app.use(express.json());
     app.use(messagesRoutes);
+    app.use(githubWebhookRoutes);
 
     return app;
 }
