@@ -1,30 +1,24 @@
 # C.A.D.E. - Comprehensive Automated Digital E-butler
 
 ## Description
-CADE (Comprehensive Automated Digital E-butler) is a backend application developed to store and manage messages received through a contact form from a web portfolio. It's built using Node.js, Express, and MongoDB, and follows good practices for production-level code, including a test suite, logging, error handling, and continuous integration.
+CADE is a multifaceted backend application designed to streamline communication and project management tasks. Originally developed to handle messages from a contact form in a web portfolio, CADE now boasts a robust Discord bot feature. This bot extends the application's capabilities into the realm of Discord, facilitating seamless message management and real-time engagement with your audience or team members.
 
 ## Features
-- REST API that receives and stores contact form messages.
-- MongoDB database to store messages.
-- Robust logging system using Winston.
-- Comprehensive test suite with Jest.
-- Continuous Integration through GitHub Actions.
-- Implements rate limiting and CORS for enhanced security.
+- **Contact Form Message Management**: CADE elevates the standard functionality of message handling by not only securely storing and cataloging messages received from a web portfolio's contact form but also engaging in intelligent conversation. Here’s a breakdown of the workflow:
+  - **Reception**: On receiving a message, CADE securely logs and stores it within the MongoDB database for easy access and management.
+  - **Interaction with ChatGPT**: CADE then forwards the message to ChatGPT, which formulates a contextually relevant response based on the inquiry.
+  - **Automated Email Response**: Once the response is parsed and tailored, CADE dispatches it via email, ensuring a timely and thoughtful reply to the initial contact.
+
+- **Discord Bot Integration**: Engage with users directly through Discord, with features that include:
+  - Automated responses and interactive communication
+  - Pull Request (PR) tracking from GitHub with updates and status reports within your Discord channels
 
 ## Future Enhancements
 The following are some ideas for features that could be added to CADE in the future:
 
 - **Automated Responses**: Set up your backend to automatically respond to specific requests. Utilize a language model like ChatGPT to generate predetermined responses based on keywords.
 
-- **Data Analytics**: Implement data analytics capabilities in your backend. Analyze data from your website or app to extract insights such as user behavior, peak usage times, and common navigation paths.
-
-- **Scheduling and Calendar Management**: Interface your backend with a service like Google Calendar to handle event scheduling, updates, and deletions. Implement functionality to provide reminders for upcoming events or deadlines.
-
-- **Expense Tracker**: Create an expense tracking feature in your backend to record and categorize expenses. Enable tracking of where your money is being spent and assist with budgeting.
-
-- **Task Management**: Develop a task management system where you can add, update, and delete tasks. Include features to track the status of each task (e.g., pending, in progress, completed).
-
-Please note that these are just ideas and the feasibility of implementing them would depend on several factors, including the specific requirements of your application, your resources, and the time you have available.
+- **GitHub Integration**: Extend the bot's capabilities with GitHub integration, allowing for real-time updates, issues, and other repository activities.
 
 ## Getting Started
 
@@ -38,12 +32,9 @@ These instructions will get you a copy of the project up and running on your loc
 ### Installing
 
 1. Clone the repository to your local machine.
-    ```bash
-    git clone https://github.com/<your-github-username>/cade.git
-    ```
+
 2. Install the necessary packages.
     ```bash
-    cd cade
     npm install
     ```
 3. Create a `.env` file in the root of the project and add the following environment variables:
@@ -53,6 +44,9 @@ These instructions will get you a copy of the project up and running on your loc
     OPENAI_API_KEY=<Your open api key>
     RESEND_API_KEY=<your Resend api key>
     FROM_EMAIL=<the email to send from(add domain first)>
+    DISCORD_BOT_TOKEN=<Your Discord Bot Token>
+    DISCORD_CLIENT_ID=<Your Discord Client ID>
+    GITHUB_API_TOKEN=<Your GitHub API Token>
     ```
 4. Start the server
     ```bash
