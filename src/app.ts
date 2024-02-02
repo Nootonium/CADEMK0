@@ -10,6 +10,7 @@ import { getEnvVariables } from "./config";
 function createApp() {
     const { ALLOWED_ORIGIN } = getEnvVariables();
     const app = express();
+    app.set('trust proxy', true);
     const limiter = rateLimit({
         windowMs: 24 * 60 * 60 * 1000,
         max: 100,

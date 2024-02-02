@@ -1,9 +1,10 @@
 import express, { Request, Response } from "express";
 import { verifyGitHubWebhookSignature } from "../utils/githubWebhookHelper";
+import { mapWebhookToPullRequest } from "../services/github/pullRequest/mapWebhookToPullRequest";
+import processPullRequestUpdate from "../services/github/pullRequest/pullRequestHandler";
 
 const router = express.Router();
 
-// Endpoint for GitHub Webhook events
 router.post("/webhook/github", (req: Request, res: Response) => {
     // Verify the request is from GitHub
     const signature = req.headers['x-hub-signature'] as string;
@@ -13,10 +14,8 @@ router.post("/webhook/github", (req: Request, res: Response) => {
 
     // Check if it's a Pull Request event
     if (req.body.action && req.body.pull_request) {
-        console.log("Received a PR Event:", req.body.action);
-
-        // Process the PR event
-        // TODO: Add your logic to handle different PR actions (opened, closed, etc.)
+        const pull_request = mapWebhookToPullRequest(req.body);
+        processPullRequestUpdate(pull_request);
     }
 
     res.status(200).send('Event received');

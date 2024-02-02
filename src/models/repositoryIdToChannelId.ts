@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const repoToChannelSchema = new Schema(
+const repositoryIdToChannelIdSchema = new Schema(
     {
         repoId: { type: String, required: true, unique: true },
         channelId: { type: String, required: true },
@@ -10,13 +10,13 @@ const repoToChannelSchema = new Schema(
     }
 );
 
-const RepoToChannel = model("RepoToChannel", repoToChannelSchema);
+const RepositoryIdToChannelId = model("RepositoryIdToChannelId", repositoryIdToChannelIdSchema);
 
-export interface RepoChannelLink {
+export interface RepositoryIdToChannelIdLink {
     repoId: string;
     channelId: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
 
-export { RepoToChannel };
+export { RepositoryIdToChannelId };

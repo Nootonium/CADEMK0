@@ -3,7 +3,7 @@ import {
     CommandInteractionOptionResolver,
     SlashCommandBuilder,
 } from "discord.js";
-import { repoChannelRepository } from "../../repositories/RepoChannelRepository";
+import { repositoryIdToChannelIdMap } from "../../repositories/RepoChannelRepository";
 import githubService from "../../github/githubService";
 
 export const data = new SlashCommandBuilder()
@@ -34,7 +34,7 @@ export async function execute(interaction: CommandInteraction) {
     }
 
     const channelId = interaction.channelId;
-    repoChannelRepository.setMapping({ repoId, channelId });
+    repositoryIdToChannelIdMap.setMapping({ repoId, channelId });
 
     return interaction.reply(`Linked repository ${fullRepoUrl} to this channel.`);
 }

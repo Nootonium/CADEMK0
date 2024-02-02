@@ -1,15 +1,19 @@
 //discordBotService.ts
-import { Client } from "discord.js";
+import { Client, GatewayIntentBits } from "discord.js";
 import { deployCommands } from "./deploy-commands";
 import { commands } from "./commands";
 import { getEnvVariables } from "../../config";
 
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.DirectMessages,
+    ],
+});
+
 export const startDiscordBot = () => {
     const { DISCORD_BOT_TOKEN } = getEnvVariables()
-
-    const client = new Client({
-        intents: ["Guilds", "GuildMessages", "DirectMessages"],
-    });
 
     client.once("ready", () => {
         console.log("Discord bot is ready! 🤖");
@@ -18,8 +22,6 @@ export const startDiscordBot = () => {
     client.on("guildCreate", async (guild) => {
         await deployCommands({ guildId: guild.id });
     });
-
-    //deployCommands({ guildId: "1201703058216857651" }); // This is the guild ID for the development server
 
     client.on("interactionCreate", async (interaction) => {
         if (!interaction.isCommand()) {
@@ -33,3 +35,5 @@ export const startDiscordBot = () => {
 
     client.login(DISCORD_BOT_TOKEN);
 }
+
+export { client };
