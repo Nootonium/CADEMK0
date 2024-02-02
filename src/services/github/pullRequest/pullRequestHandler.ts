@@ -6,7 +6,7 @@ import { repositoryIdToChannelIdMap } from "../../repositories/RepoChannelReposi
 import { logger } from "../../../logger";
 
 async function processPullRequestUpdate(pullRequest: PullRequest) {
-    console.log("Processing pull request:\n", pullRequest);
+    //console.log("Processing pull request:\n", pullRequest);
     const newPRMessage = formatPRMessageForDiscord(pullRequest);
     const channelId = await repositoryIdToChannelIdMap.getChannelId(pullRequest.repoId);
     if (!channelId) {
