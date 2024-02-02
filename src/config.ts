@@ -7,11 +7,14 @@ export function getEnvVariables() {
 
     const defaults = {
         PORT: 3000,
-        MONGODB_URI: "mongodb://localhost:27017/default",
+        MONGODB_URI: "mongodb://localhost:27017/cadedev",
         EMAIL_SERVICE_API_KEY: "",
         OPENAI_API_KEY: "",
         ALLOWED_ORIGIN: "*",
         FROM_EMAIL: "onboarding@resend.dev",
+        DISCORD_BOT_TOKEN: "",
+        DISCORD_CLIENT_ID: "",
+        GITHUB_API_TOKEN: "",
     };
 
     const {
@@ -21,6 +24,9 @@ export function getEnvVariables() {
         OPENAI_API_KEY = defaults.OPENAI_API_KEY,
         ALLOWED_ORIGIN = defaults.ALLOWED_ORIGIN,
         FROM_EMAIL = defaults.FROM_EMAIL,
+        DISCORD_BOT_TOKEN = defaults.DISCORD_BOT_TOKEN,
+        DISCORD_CLIENT_ID = defaults.DISCORD_CLIENT_ID,
+        GITHUB_API_TOKEN = defaults.GITHUB_API_TOKEN,
     } = process.env;
 
     return {
@@ -30,5 +36,8 @@ export function getEnvVariables() {
         OPENAI_API_KEY,
         ALLOWED_ORIGIN,
         FROM_EMAIL,
+        DISCORD_BOT_TOKEN,
+        DISCORD_CLIENT_ID,
+        GITHUB_API_TOKEN,
     };
 }

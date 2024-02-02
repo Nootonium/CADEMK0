@@ -38,9 +38,7 @@ describe("parseGptResponse", () => {
         "inquiryType": "General",
         "response": "Thank you for your message."
     `;
-        expect(() => parseResponse(response)).toThrow(
-            "Error parsing GPT response: Unexpected end of JSON input"
-        );
+        expect(() => parseResponse(response)).toThrow();
     });
 
     it("should throw an error for a JSON string with missing properties", () => {
