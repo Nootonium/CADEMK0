@@ -1,4 +1,7 @@
-import { RepositoryIdToChannelIdLink, RepositoryIdToChannelId } from "../../models/repositoryIdToChannelId";
+import {
+    RepositoryIdToChannelIdLink,
+    RepositoryIdToChannelId,
+} from "../../models/repositoryIdToChannelId";
 import { logger } from "../../logger";
 
 class RepositoryIdToChannelIdMap {
@@ -26,6 +29,11 @@ class RepositoryIdToChannelIdMap {
             logger.error(`Error getting mapping: ${error}`);
             return null;
         }
+    }
+
+    async getChannelId(repoId: string): Promise<string | null> {
+        const mapping = await this.getMapping(repoId);
+        return mapping ? mapping.channelId : null;
     }
 }
 

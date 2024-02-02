@@ -1,22 +1,21 @@
 import { PullRequest, PullRequestStatus } from "../github/pullRequest/pullRequest";
 
-function formatPRMessageForDiscord(pr: PullRequest): string {
-    let statusEmoji: string;
-    switch (pr.status) {
+function formatStatusEmoji(status: PullRequestStatus): string {
+    switch (status) {
         case PullRequestStatus.Open:
-            statusEmoji = "🟢"; // Green circle for open
-            break;
+            return "🟢"; // Green circle for open
         case PullRequestStatus.Closed:
-            statusEmoji = "🔴"; // Red circle for closed
-            break;
+            return "🔴"; // Red circle for closed
         case PullRequestStatus.Merged:
-            statusEmoji = "🔵"; // Blue circle for merged
-            break;
+            return "🔵"; // Blue circle for merged
         default:
-            statusEmoji = "⚪"; // White circle for unknown status
+            return "⚪"; // White circle for unknown status
     }
+}
 
-    return `## Pull Request\n**Title:** [${pr.title}](${pr.html_url})\n**Status:** ${statusEmoji} ${pr.status}`;
+function formatPRMessageForDiscord(pr: PullRequest): string {
+    const statusEmoji = formatStatusEmoji(pr.status);
+    return `Ah, the digital ethers have whispered to me of a new endeavor, a pull request by **${pr.author}**, upon the vast tapestry of our codebase.\n**Title:** [${pr.title}](${pr.html_url})\n**Description:** ${pr.description}\n**Status:** ${statusEmoji} ${pr.status}`;
 }
 
 export { formatPRMessageForDiscord };

@@ -4,13 +4,13 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import messagesRoutes from "./routes/messageRoutes";
-import githubWebhookRoutes from "./routes/githubWebhookRoutes"; 
+import githubWebhookRoutes from "./routes/githubWebhookRoutes";
 import { getEnvVariables } from "./config";
 
 function createApp() {
     const { ALLOWED_ORIGIN } = getEnvVariables();
     const app = express();
-    app.set('trust proxy', true);
+    app.set("trust proxy", true);
     const limiter = rateLimit({
         windowMs: 24 * 60 * 60 * 1000,
         max: 100,

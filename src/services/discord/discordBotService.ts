@@ -13,7 +13,7 @@ const client = new Client({
 });
 
 export const startDiscordBot = () => {
-    const { DISCORD_BOT_TOKEN } = getEnvVariables()
+    const { DISCORD_BOT_TOKEN } = getEnvVariables();
 
     client.once("ready", () => {
         console.log("Discord bot is ready! 🤖");
@@ -34,6 +34,6 @@ export const startDiscordBot = () => {
     });
 
     client.login(DISCORD_BOT_TOKEN);
-}
+};
 
 export { client };

@@ -20,7 +20,6 @@ const githubService = {
 
             https
                 .get(options, (res) => {
-                    console.log(`GitHub API Response Status: ${res.statusCode}`);
                     if (res.statusCode === 200) {
                         resolve(true);
                     } else if (res.statusCode === 404) {

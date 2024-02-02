@@ -1,7 +1,7 @@
 import { REST, Routes } from "discord.js";
 import { commands } from "./commands";
 import { getEnvVariables } from "../../config";
-
+import { logger } from "../../logger";
 
 const { DISCORD_CLIENT_ID, DISCORD_BOT_TOKEN } = getEnvVariables();
 
@@ -15,17 +15,10 @@ type DeployCommandsProps = {
 
 export async function deployCommands({ guildId }: DeployCommandsProps) {
     try {
-        console.log("Started refreshing application (/) commands.");
-
-        await rest.put(
-            Routes.applicationGuildCommands(DISCORD_CLIENT_ID, guildId),
-            {
-                body: commandsData,
-            }
-        );
-
-        console.log("Successfully reloaded application (/) commands.");
+        await rest.put(Routes.applicationGuildCommands(DISCORD_CLIENT_ID, guildId), {
+            body: commandsData,
+        });
     } catch (error) {
-        console.error(error);
+        logger.error(error);
     }
 }

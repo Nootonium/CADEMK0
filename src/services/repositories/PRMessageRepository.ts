@@ -1,4 +1,7 @@
-import { PullRequestIdToMessageId, PullRequestIdToMessageIdLink } from "../../models/pullRequestIdToMessageId";
+import {
+    PullRequestIdToMessageId,
+    PullRequestIdToMessageIdLink,
+} from "../../models/pullRequestIdToMessageId";
 import { logger } from "../../logger";
 
 class PullRequestIdToMessageIdMap {
@@ -18,9 +21,13 @@ class PullRequestIdToMessageIdMap {
             logger.error(`Error setting mapping: ${error}`);
         }
     }
-    async getMapping(pullRequestId: string): Promise<PullRequestIdToMessageIdLink | null> {
+    async getMapping(
+        pullRequestId: string
+    ): Promise<PullRequestIdToMessageIdLink | null> {
         try {
-            const mapping = await PullRequestIdToMessageId.findOne({ pullRequestId: pullRequestId });
+            const mapping = await PullRequestIdToMessageId.findOne({
+                pullRequestId: pullRequestId,
+            });
             return mapping;
         } catch (error) {
             logger.error(`Error getting mapping: ${error}`);
@@ -35,6 +42,10 @@ class PullRequestIdToMessageIdMap {
         } catch (error) {
             logger.error(`Error deleting mapping: ${error}`);
         }
+    }
+    async getMessageId(pullRequestId: string): Promise<string | null> {
+        const mapping = await this.getMapping(pullRequestId);
+        return mapping ? mapping.messageId : null;
     }
 }
 

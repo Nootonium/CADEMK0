@@ -10,7 +10,10 @@ const repositoryIdToChannelIdSchema = new Schema(
     }
 );
 
-const RepositoryIdToChannelId = model("RepositoryIdToChannelId", repositoryIdToChannelIdSchema);
+const RepositoryIdToChannelId = model(
+    "RepositoryIdToChannelId",
+    repositoryIdToChannelIdSchema
+);
 
 export interface RepositoryIdToChannelIdLink {
     repoId: string;

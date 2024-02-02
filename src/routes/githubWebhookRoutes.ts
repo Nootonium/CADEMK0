@@ -7,9 +7,9 @@ const router = express.Router();
 
 router.post("/webhook/github", (req: Request, res: Response) => {
     // Verify the request is from GitHub
-    const signature = req.headers['x-hub-signature'] as string;
+    const signature = req.headers["x-hub-signature"] as string;
     if (!verifyGitHubWebhookSignature(req.body, signature)) {
-        return res.status(401).send('Invalid signature');
+        return res.status(401).send("Invalid signature");
     }
 
     // Check if it's a Pull Request event
@@ -18,8 +18,7 @@ router.post("/webhook/github", (req: Request, res: Response) => {
         processPullRequestUpdate(pull_request);
     }
 
-    res.status(200).send('Event received');
+    res.status(200).send("Event received");
 });
 
 export default router;
-

@@ -8,7 +8,7 @@ import { startDiscordBot } from "./services/discord/discordBotService";
 let server: Server | null = null;
 
 export const startServer = async (): Promise<Server> => {
-    const { MONGODB_URI, PORT, ALLOWED_ORIGIN} = getEnvVariables();
+    const { MONGODB_URI, PORT, ALLOWED_ORIGIN } = getEnvVariables();
     await connectDB(MONGODB_URI);
     const app = createApp();
 
@@ -16,7 +16,7 @@ export const startServer = async (): Promise<Server> => {
 
     server = app.listen(PORT, () => {
         console.log(`Server is running at http://localhost:${PORT}`);
-        console.log('ALLOWED ORIGINS: ', ALLOWED_ORIGIN)
+        console.log("ALLOWED ORIGINS: ", ALLOWED_ORIGIN);
     });
     return server;
 };

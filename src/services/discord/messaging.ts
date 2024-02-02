@@ -4,9 +4,7 @@ import { logger } from "../../logger";
 
 async function getTextChannel(channelId: string): Promise<TextChannel | null> {
     try {
-        console.log("Fetching channel: ", channelId);
         const channel = await client.channels.fetch(channelId);
-        console.log("Channel: ", channel);
         if (!channel || !(channel instanceof TextChannel)) {
             logger.error("The channel is not found or not a text channel.");
             return null;
@@ -42,7 +40,6 @@ async function updateMessageInChannel(
 ): Promise<boolean> {
     const channel = await getTextChannel(channelId);
     if (!channel) return false;
-    console.log(channel);
     try {
         const message = await channel.messages.fetch(messageId);
         await message.edit(newMessageContent);
