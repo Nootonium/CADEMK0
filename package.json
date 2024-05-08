@@ -4,7 +4,7 @@
   "description": "C.A.D.E. - Comprehensive Automated Digital E-butler",
   "main": "src/server.ts",
   "scripts": {
-    "test": "NODE_ENV=test jest --coverage",
+    "test": "NODE_ENV=test jest --coverage --passWithNoTests",
     "clean": "rimraf dist",
     "build": "npx rimraf dist && tsc",
     "start": "node dist/server.js",
