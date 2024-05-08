@@ -23,16 +23,13 @@ export async function execute(interaction: CommandInteraction) {
     if (!fullRepoUrl) {
         return interaction.reply("Please provide a GitHub repository URL.");
     }
-
     const repoId = fullRepoUrl.replace("https://github.com/", "");
-
     const repoExists = await githubService.checkRepoExists(repoId);
     if (!repoExists) {
         return interaction.reply(
             "The GitHub repository does not exist or could not be accessed."
         );
     }
-
     const channelId = interaction.channelId;
     repositoryIdToChannelIdMap.setMapping({ repoId, channelId });
 
