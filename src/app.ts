@@ -37,8 +37,8 @@ function createApp() {
 
     setupEventListeners();
 
-    app.get('/health', (_req, res) => {
-        res.status(200).send({ status: 'UP' });
+    app.get("/health", (_req, res) => {
+        res.status(200).send({ status: "UP" });
     });
 
     return app;

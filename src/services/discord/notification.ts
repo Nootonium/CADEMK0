@@ -19,7 +19,11 @@ function formatMessageForDiscord({
     return formattedMessage;
 }
 
-export async function sendNotificationToDiscord(message: { name: string; email: string; message: string }) {
+export async function sendNotificationToDiscord(message: {
+    name: string;
+    email: string;
+    message: string;
+}) {
     const formattedMessage = formatMessageForDiscord(message);
     try {
         const notificationChannel = await NotificationChannelModel.findOne().exec();
