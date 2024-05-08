@@ -9,11 +9,6 @@ import githubWebhookRoutes from "./routes/githubWebhookRoutes";
 import { getEnvVariables } from "./config";
 import { setupEventListeners } from "./events";
 
-const delayMiddleware =
-    (delayInMs: number) => (_req: Request, _res: Response, next: NextFunction) => {
-        setTimeout(() => next(), delayInMs);
-    };
-
 function createApp() {
     const { ALLOWED_ORIGIN } = getEnvVariables();
     const app = express();
@@ -29,7 +24,6 @@ function createApp() {
             origin: ALLOWED_ORIGIN,
         })
     );
-    app.use(delayMiddleware(1000));
 
     app.use(express.json());
     app.use(messagesRoutes);
