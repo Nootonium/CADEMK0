@@ -1,9 +1,5 @@
 import { check } from "express-validator";
-import {
-    validateMessage,
-    saveMessage,
-    respondWithGpt,
-} from "../services/messageService";
+import { validateMessage, saveMessage } from "../services/messageService";
 
 import express from "express";
 
@@ -15,7 +11,6 @@ router.post("/message", [
     check("message").notEmpty().withMessage("Message is required"),
     validateMessage,
     saveMessage,
-    respondWithGpt,
 ]);
 
 export default router;

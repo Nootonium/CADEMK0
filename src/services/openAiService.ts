@@ -7,65 +7,28 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-interface GptPrompt {
-    name: string;
-    message: string;
-}
-
-function buildPrompt({ name, message }: GptPrompt): string {
-    return `Based on the following message received via my portfolio contact form, please classify the type of inquiry
-        (e.g., job offer, collaboration proposal, question, etc.) and then generate a professional and friendly response (Response) without specifying my availability.
-        Try to respond in the same language as the message. The message is: ${message} from ${name}. Please generate a response in the following format:
-        {
-            "inquiryType": "[type]",
-            "response": "[response text]"
-        }`;
-}
-
-export async function getCompletion(params: OpenAiCompletionParams): Promise<string> {
-    const response = await openai.createCompletion({
-        ...params,
-    });
-    if ("choices" in response.data && response.data.choices.length > 0) {
-        return response.data?.choices[0]?.text || "";
-    }
-    return "";
-}
-
-export async function getValidatedResponse({ name, message }: GptPrompt) {
-    const gptPrompt = buildPrompt({ name, message });
+export async function getCompletion({
+    prompt,
+    model = "text-davinci-003",
+    max_tokens = 256,
+    frequency_penalty = 0.3,
+}: {
+    prompt: string;
+    model?: string;
+    max_tokens?: number;
+    frequency_penalty?: number;
+}): Promise<string> {
     const params: OpenAiCompletionParams = {
-        model: "text-davinci-003",
-        prompt: gptPrompt,
-        max_tokens: 256,
-        frequency_penalty: 0.3,
+        model,
+        prompt,
+        max_tokens,
+        frequency_penalty,
     };
-    const response = await getCompletion(params);
+    const response = await openai.createCompletion(params);
+    const text = response.data?.choices[0]?.text || "";
 
-    if (!validateResponse(response)) {
+    if (!text.trim()) {
         throw new Error("Invalid response received from OpenAI");
     }
-
-    return parseResponse(response);
-}
-
-export function validateResponse(response: string): boolean {
-    return response.trim() !== "";
-}
-
-export function parseResponse(response: string): {
-    inquiryType: string;
-    response: string;
-} {
-    try {
-        const parsedResponse = JSON.parse(response);
-        if ("inquiryType" in parsedResponse && "response" in parsedResponse) {
-            return parsedResponse;
-        } else {
-            throw new Error("Missing inquiryType or response property");
-        }
-    } catch (error) {
-        const err = error as Error;
-        throw new Error(`Error parsing GPT response: ${err.message}`);
-    }
+    return text;
 }

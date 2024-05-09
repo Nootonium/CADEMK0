@@ -14,8 +14,17 @@ function formatStatusEmoji(status: PullRequestStatus): string {
 }
 
 function formatPRMessageForDiscord(pr: PullRequest): string {
+    const maxMessageLength = 2000;
     const statusEmoji = formatStatusEmoji(pr.status);
-    return `Ah, the digital ethers have whispered to me of a new endeavor, a pull request by **${pr.author}**, upon the vast tapestry of our codebase.\n**Title:** [${pr.title}](${pr.html_url})\n**Description:** ${pr.description}\n**Status:** ${statusEmoji} ${pr.status}`;
+
+    const initialMessage = `Ah, the digital ethers have whispered to me of a new endeavor, a pull request by **${pr.author}**, upon the vast tapestry of our codebase.\n**Title:** [${pr.title}](${pr.html_url})\n**Status:** ${statusEmoji} ${pr.status}\n**Description:** `;
+    const availableLength = maxMessageLength - initialMessage.length;
+
+    let truncatedDescription = pr.description;
+    if (pr.description.length > availableLength) {
+        truncatedDescription = pr.description.substring(0, availableLength - 3) + "...";
+    }
+    return initialMessage + truncatedDescription;
 }
 
 export { formatPRMessageForDiscord };

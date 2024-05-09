@@ -11,7 +11,6 @@ router.post("/webhook/github", (req: Request, res: Response) => {
     if (!verifyGitHubWebhookSignature(req.body, signature)) {
         return res.status(401).send("Invalid signature");
     }
-
     // Check if it's a Pull Request event
     if (req.body.action && req.body.pull_request) {
         const pull_request = mapWebhookToPullRequest(req.body);
