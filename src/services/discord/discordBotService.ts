@@ -12,11 +12,14 @@ const client = new Client({
     ],
 });
 
-export const startDiscordBot = () => {
+let botReady = false;
+
+export const startDiscordBot = async (): Promise<void> => {
     const { DISCORD_BOT_TOKEN } = getEnvVariables();
 
     client.once("ready", () => {
         console.log("Discord bot is ready! 🤖");
+        botReady = true;
     });
 
     client.on("guildCreate", async (guild) => {
@@ -33,7 +36,9 @@ export const startDiscordBot = () => {
         }
     });
 
-    client.login(DISCORD_BOT_TOKEN);
+    await client.login(DISCORD_BOT_TOKEN);
 };
+
+export const isBotReady = (): boolean => botReady;
 
 export { client };
