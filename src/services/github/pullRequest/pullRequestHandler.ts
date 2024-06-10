@@ -7,13 +7,14 @@ import { logger } from "../../../logger";
 
 async function processPullRequestUpdate(pullRequest: PullRequest) {
     //console.log("Processing pull request:\n", pullRequest);
-    const newPRMessage = formatPRMessageForDiscord(pullRequest);
     const channelId = await repositoryIdToChannelIdMap.getChannelId(pullRequest.repoId);
     if (!channelId) {
         logger.error(`No channelId found for repoId: ${pullRequest.repoId}`);
         return;
     }
+
     let messageId = await pullRequestIdToMessageIdMap.getMessageId(pullRequest.id);
+    const newPRMessage = formatPRMessageForDiscord(pullRequest);
     if (!messageId) {
         messageId = await sendMessageToChannel(channelId, newPRMessage);
         if (!messageId) {
