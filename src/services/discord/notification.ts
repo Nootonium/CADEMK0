@@ -1,6 +1,6 @@
 import { sendMessageToChannel } from "./messaging";
 import { logger } from "../../logger";
-import { NotificationChannelModel } from "../../models/notificationChannel";
+import { NotificationChannelModel } from "../../models/NotificationChannel";
 
 function formatMessageForDiscord({
     name,
