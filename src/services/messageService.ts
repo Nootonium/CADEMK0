@@ -1,4 +1,4 @@
-import Message from "../models/message";
+import Message from "../models/Message";
 import { logger } from "../logger";
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
