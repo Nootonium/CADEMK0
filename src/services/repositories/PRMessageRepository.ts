@@ -1,7 +1,7 @@
 import {
     PullRequestIdToMessageId,
     PullRequestIdToMessageIdLink,
-} from "../../models/pullRequestIdToMessageId";
+} from "../../models/PullRequestIdToMessageId";
 import { logger } from "../../logger";
 
 class PullRequestIdToMessageIdMap {

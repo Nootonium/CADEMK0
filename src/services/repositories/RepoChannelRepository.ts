@@ -1,7 +1,7 @@
 import {
     RepositoryIdToChannelIdLink,
     RepositoryIdToChannelId,
-} from "../../models/repositoryIdToChannelId";
+} from "../../models/RepositoryIdToChannelId";
 import { logger } from "../../logger";
 
 class RepositoryIdToChannelIdMap {
