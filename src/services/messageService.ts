@@ -5,6 +5,9 @@ import { validationResult } from "express-validator";
 import { eventEmitter } from "../events";
 
 export async function validateMessage(req: Request, res: Response, next: NextFunction) {
+    /**
+     * This function validates the request body and checks if the name, email, and message fields are present.
+     */
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const errorMessages = errors.array().map((error) => error.msg);

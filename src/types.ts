@@ -27,3 +27,15 @@ export interface OpenAiCompletionParams {
     logit_bias?: { [key: string]: number };
     user?: string;
 }
+
+export interface Event {
+    eventType: string;
+    eventData: string;
+}
+
+export interface Session {
+    sessionId: string;
+    referralSource?: string;
+    userAgent: string;
+    events: Event[];
+}
