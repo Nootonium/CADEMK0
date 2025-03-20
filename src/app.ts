@@ -1,10 +1,10 @@
-// app.ts
 import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import messagesRoutes from "./routes/messageRoutes";
 import githubWebhookRoutes from "./routes/githubWebhookRoutes";
+import trackingRoutes from "./routes/trackingRoutes";
 import { getEnvVariables } from "./config";
 import { setupEventListeners } from "./events";
 
@@ -27,6 +27,7 @@ function createApp() {
     app.use(express.json());
     app.use(messagesRoutes);
     app.use(githubWebhookRoutes);
+    app.use(trackingRoutes);
 
     setupEventListeners();
 

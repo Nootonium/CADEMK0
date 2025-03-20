@@ -1,5 +1,5 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import { NotificationChannelModel } from "../../../models/notificationChannel";
+import { NotificationChannelModel } from "../../../models/NotificationChannel";
 import { logger } from "../../../logger";
 
 export const data = new SlashCommandBuilder()
