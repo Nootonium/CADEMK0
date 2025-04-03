@@ -12,7 +12,7 @@ export async function trackSessionEvent(req: Request, res: Response) {
                 .status(400)
                 .json({ error: "sessionId, eventType, and eventData are required" });
         }
-        if (!["section", "click"].includes(eventType)) {
+        if (!["section", "click", "click_link"].includes(eventType)) {
             return res.status(400).json({ error: "Invalid eventType" });
         }
 
